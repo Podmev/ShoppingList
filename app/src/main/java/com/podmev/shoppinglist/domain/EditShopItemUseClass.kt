@@ -1,8 +1,7 @@
 package com.podmev.shoppinglist.domain
 
-class EditShopItemUseClass {
-    //todo change params
+class EditShopItemUseClass(private val shopListRepository: ShopListRepository) {
     fun editShopItem(shopItem: ShopItem){
-        TODO()
+        shopListRepository.editShopItem(shopItem)
     }
 }
