@@ -16,22 +16,14 @@ class MainViewModel: ViewModel() {
     private val deleteShopItemUseCase = DeleteShopItemUseCase(repository)
     private val editShopItemUseCase = EditShopItemUseCase(repository)
 
-    val shopList = MutableLiveData<List<ShopItem>>()
-
-    fun getShopList(){
-        val list = getShopListUseCase.getShopList()
-        //.value можно использовать только в главном потоке, .postValue в любом
-        shopList.value = list
-    }
+    val shopList = getShopListUseCase.getShopList()
 
     fun changedEnabledShopItem(shopItem: ShopItem){
         val changedShopItem = shopItem.copy(enabled = !shopItem.enabled)
         editShopItemUseCase.editShopItem(changedShopItem)
-        getShopList()
     }
 
     fun deleteShopItem(shopItem: ShopItem){
         deleteShopItemUseCase.deleteShopItem(shopItem)
-        getShopList()
     }
 }
