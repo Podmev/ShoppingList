@@ -3,7 +3,7 @@ package com.podmev.shoppinglist.domain
 data class ShopItem(
     val name: String,
     val count: Int,
-    val visible: Boolean,
+    val enabled: Boolean,
     var id: Int = UNDEFINED_ID
 ){
     companion object{
