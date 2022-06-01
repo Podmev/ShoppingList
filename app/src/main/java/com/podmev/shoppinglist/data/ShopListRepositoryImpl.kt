@@ -7,12 +7,12 @@ import com.podmev.shoppinglist.domain.ShopListRepository
 
 object ShopListRepositoryImpl: ShopListRepository {
     private val shopListLD = MutableLiveData<List<ShopItem>>()
-    private val shopList = mutableListOf<ShopItem>()
+    private val shopList = sortedSetOf<ShopItem>({o1, o2 -> o1.id.compareTo(o2.id)})
 
     private var autoIncrementId = 0
 
     init {
-        for (i in 1..10){
+        for (i in 1..10000){
             addShopItem(ShopItem("ShopItem$i", 1, true))
         }
     }
