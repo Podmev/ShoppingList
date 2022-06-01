@@ -1,7 +1,7 @@
 package com.podmev.shoppinglist.domain
 
 class AddShopItemUseCase(private val shopListRepository: ShopListRepository) {
-    fun addShopItem(shopItem: ShopItem){
+    fun addShopItem(shopItem: ShopItem) {
         shopListRepository.addShopItem(shopItem)
     }
 }
