@@ -35,13 +35,8 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.DISABLED_VIEW,
                 ShopListAdapter.MAX_POOL_SIZE
             )
-            shopListAdapter.onShopItemLongClickListener = object :
-                ShopListAdapter.OnShopItemLongClickListener {
-
-                override fun onShopItemLongClick(shopItem: ShopItem) {
-                    viewModel.changedEnabledShopItem(shopItem)
-                }
-
+            shopListAdapter.onShopItemLongClickListener = {
+                viewModel.changedEnabledShopItem(it)
             }
         }
     }
