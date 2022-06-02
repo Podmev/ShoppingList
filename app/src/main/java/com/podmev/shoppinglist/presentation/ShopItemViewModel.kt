@@ -21,34 +21,50 @@ class ShopItemViewModel:ViewModel() {
         get() = _errorInputName
 
     private val _errorInputCount = MutableLiveData<Boolean>()
-    val errorInputCount : LiveData<Boolean>
+    val errorInputCount: LiveData<Boolean>
         get() = _errorInputCount
 
-    fun getShopItem(shopItemId: Int): ShopItem{
-        return getShopItemUseCase.getShopItem(shopItemId)
+    private val _shopItem = MutableLiveData<ShopItem>()
+    val shopItem: LiveData<ShopItem>
+        get() = _shopItem
+
+    private val _shouldCloseScreen = MutableLiveData<Unit>()
+    val shouldCloseScreen: LiveData<Unit>
+        get() = _shouldCloseScreen
+
+    fun getShopItem(shopItemId: Int) {
+        val item = getShopItemUseCase.getShopItem(shopItemId)
+        _shopItem.value = item
     }
 
-    fun addShopItem(inputName: String?, inputCount: String?){
+    fun addShopItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
-        val count = parseCount(inputName)
+        val count = parseCount(inputCount)
         val fieldsValid = validateInput(name, count)
-        if(fieldsValid) {
+        if (fieldsValid) {
             val shopItem = ShopItem(name, count, true)
             addShopItemUseCase.addShopItem(shopItem)
+            finishWork()
         }
+
     }
 
-    fun editShopItem(oldShopItem: ShopItem, inputName: String, inputCount: Int){
+    fun editShopItem(inputName: String, inputCount: String?) {
+
         val name = parseName(inputName)
-        val count = parseCount(inputName)
+        val count = parseCount(inputCount)
         val fieldsValid = validateInput(name, count)
-        if(fieldsValid) {
-            val newShopItem = oldShopItem.copy(name = name, count = count)
-            editShopItemUseCase.editShopItem(newShopItem)
+        if (fieldsValid) {
+            _shopItem.value?.let {
+                val updatedShopItem = it.copy(name = name, count = count)
+                editShopItemUseCase.editShopItem(updatedShopItem)
+                finishWork()
+            }
         }
+
     }
 
-    private fun parseName(inputName: String?): String{
+    private fun parseName(inputName: String?): String {
         return inputName?.trim() ?: ""
     }
 
@@ -75,5 +91,9 @@ class ShopItemViewModel:ViewModel() {
 
     fun resetErrorInputCount(){
         _errorInputCount.value = false
+    }
+
+    fun finishWork(){
+        _shouldCloseScreen.value = Unit
     }
 }
