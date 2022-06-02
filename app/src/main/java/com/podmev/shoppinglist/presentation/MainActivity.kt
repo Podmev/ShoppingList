@@ -1,6 +1,5 @@
 package com.podmev.shoppinglist.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -24,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         }
         val buttonAddItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
         buttonAddItem.setOnClickListener{
-            val intent = Intent(this, ShopItemActivity::class.java)
-            intent.putExtra("extra_mode", "mode_add")
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
     }
 
@@ -57,8 +56,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
             Log.d("MainActivity", "click for ${it}")
-            val intent = Intent(this, ShopItemActivity::class.java)
-            intent.putExtra("extra_mode", "mode_edit")
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
