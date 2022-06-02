@@ -1,11 +1,13 @@
 package com.podmev.shoppinglist.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.podmev.shoppinglist.R
 
 class MainActivity : AppCompatActivity() {
@@ -15,11 +17,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setupRecyclerView()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
         }
-        setupRecyclerView()
+        val buttonAddItem = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        buttonAddItem.setOnClickListener{
+            val intent = Intent(this, ShopItemActivity::class.java)
+            intent.putExtra("extra_mode", "mode_add")
+        }
     }
 
     private fun setupRecyclerView() {
@@ -50,6 +57,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
             Log.d("MainActivity", "click for ${it}")
+            val intent = Intent(this, ShopItemActivity::class.java)
+            intent.putExtra("extra_mode", "mode_edit")
         }
     }
 
