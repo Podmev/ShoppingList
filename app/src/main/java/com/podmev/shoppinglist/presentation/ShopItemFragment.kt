@@ -3,6 +3,7 @@ package com.podmev.shoppinglist.presentation
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class ShopItemFragment : Fragment() {
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("ShopItemFragment", "onCreate")
         super.onCreate(savedInstanceState)
         parseParams()
     }
@@ -43,7 +45,7 @@ class ShopItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
-        initView(view)
+        initViews(view)
         addTextChangeListeners()
         launchRightMode()
         observeViewModel()
@@ -125,7 +127,7 @@ class ShopItemFragment : Fragment() {
             throw RuntimeException("Unknown screen mode $mode")
         }
         screenMode = mode
-        if (mode == MODE_EDIT) {
+        if (screenMode == MODE_EDIT) {
             if (!args.containsKey(SHOP_ITEM_ID)) {
                 throw RuntimeException("Param shop item id is absent")
             }
@@ -133,7 +135,7 @@ class ShopItemFragment : Fragment() {
         }
     }
 
-    private fun initView(view: View) {
+    private fun initViews(view: View) {
         tilName = view.findViewById(R.id.til_name)
         tilCount = view.findViewById(R.id.til_count)
         etName = view.findViewById(R.id.et_name)

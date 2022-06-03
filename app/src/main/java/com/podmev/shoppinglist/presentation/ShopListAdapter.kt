@@ -12,8 +12,8 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCa
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
         val layout = when (viewType) {
-            ENABLED_VIEW -> R.layout.item_shop_enabled
-            DISABLED_VIEW -> R.layout.item_shop_disabled
+            VIEW_TYPE_DISABLED -> R.layout.item_shop_disabled
+            VIEW_TYPE_ENABLED -> R.layout.item_shop_enabled
             else -> throw RuntimeException("Unknown viewType: $viewType")
         }
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
@@ -30,18 +30,17 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCa
         }
         viewHolder.view.setOnClickListener {
             onShopItemClickListener?.invoke(shopItem)
-            true
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         val shopItem = getItem(position)
-        return if(shopItem.enabled) ENABLED_VIEW else DISABLED_VIEW
+        return if(shopItem.enabled) VIEW_TYPE_ENABLED else VIEW_TYPE_DISABLED
     }
 
     companion object{
-        const val ENABLED_VIEW = 101
-        const val DISABLED_VIEW = 102
+        const val VIEW_TYPE_ENABLED = 101
+        const val VIEW_TYPE_DISABLED = 102
 
         const val MAX_POOL_SIZE = 15
     }

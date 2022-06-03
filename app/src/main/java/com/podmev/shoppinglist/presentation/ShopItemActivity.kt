@@ -14,11 +14,10 @@ class ShopItemActivity : AppCompatActivity() {
     private var shopItemId = ShopItem.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("ShopItemActivity", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
         parseIntent()
-        if(savedInstanceState==null) {
+        if (savedInstanceState == null) {
             //on first time
             launchRightMode()
         }
@@ -44,7 +43,7 @@ class ShopItemActivity : AppCompatActivity() {
             throw RuntimeException("Unknown screen mode $mode")
         }
         screenMode = mode
-        if (mode == MODE_EDIT) {
+        if (screenMode == MODE_EDIT) {
             if (!intent.hasExtra(EXTRA_SHOP_ITEM_ID)) {
                 throw RuntimeException("Param shop item id is absent")
             }
@@ -65,7 +64,7 @@ class ShopItemActivity : AppCompatActivity() {
             return intent
         }
 
-        fun newIntentEditItem(context: Context, shopItemId:Int): Intent{
+        fun newIntentEditItem(context: Context, shopItemId: Int): Intent {
             val intent = Intent(context, ShopItemActivity::class.java)
             intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
             intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)

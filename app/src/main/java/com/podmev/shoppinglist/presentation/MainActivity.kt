@@ -55,11 +55,11 @@ class MainActivity : AppCompatActivity() {
             adapter = shopListAdapter
             //выставляем сколько свободных viewholder для каждого типа view
             recycledViewPool.setMaxRecycledViews(
-                ShopListAdapter.ENABLED_VIEW,
+                ShopListAdapter.VIEW_TYPE_ENABLED,
                 ShopListAdapter.MAX_POOL_SIZE
             )
             recycledViewPool.setMaxRecycledViews(
-                ShopListAdapter.DISABLED_VIEW,
+                ShopListAdapter.VIEW_TYPE_DISABLED,
                 ShopListAdapter.MAX_POOL_SIZE
             )
         }
