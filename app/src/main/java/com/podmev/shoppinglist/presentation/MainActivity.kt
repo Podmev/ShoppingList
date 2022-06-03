@@ -62,26 +62,10 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.DISABLED_VIEW,
                 ShopListAdapter.MAX_POOL_SIZE
             )
-            setupLongClickListener()
-            setupClickListener()
-            setupSwipeListener(rvShopList)
         }
-    }
-    private fun setupLongClickListener() {
-        shopListAdapter.onShopItemLongClickListener = {
-            viewModel.changedEnabledShopItem(it)
-        }
-    }
-
-    private fun setupClickListener() {
-        shopListAdapter.onShopItemClickListener = {
-            if (isOnePaneMode()) {
-                val intent = ShopItemActivity.newIntentEditItem(this, it.id)
-                startActivity(intent)
-            } else {
-                launchFragment(ShopItemFragment.newInstanceEditItem(it.id))
-            }
-        }
+        setupLongClickListener()
+        setupClickListener()
+        setupSwipeListener(rvShopList)
     }
 
     private fun setupSwipeListener(rvShopList: RecyclerView) {
@@ -107,4 +91,23 @@ class MainActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
+
+
+    private fun setupClickListener() {
+        shopListAdapter.onShopItemClickListener = {
+            if (isOnePaneMode()) {
+                val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+                startActivity(intent)
+            } else {
+                launchFragment(ShopItemFragment.newInstanceEditItem(it.id))
+            }
+        }
+    }
+
+    private fun setupLongClickListener() {
+        shopListAdapter.onShopItemLongClickListener = {
+            viewModel.changeEnabledState(it)
+        }
+    }
+
 }
